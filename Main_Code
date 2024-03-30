@@ -1,0 +1,31 @@
+import tensorflow as tf
+from tensorflow.keras import layers, models
+import numpy as np
+
+# Generate some dummy data for training
+num_samples = 1000
+input_dim = 10
+output_dim = 1
+
+X_train = np.random.random((num_samples, input_dim))
+y_train = np.random.randint(2, size=(num_samples, output_dim))
+
+# Define the neural network architecture
+model = models.Sequential([
+    layers.Dense(64, input_shape=(input_dim,), activation='relu'),
+    layers.Dense(32, activation='relu'),
+    layers.Dense(output_dim, activation='sigmoid')
+])
+
+# Compile the model
+model.compile(optimizer='adam',
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+# Train the model
+history = model.fit(X_train, y_train, epochs=10, batch_size=32, validation_split=0.2)
+
+# Evaluate the model
+loss, accuracy = model.evaluate(X_train, y_train)
+print(f"Training loss: {loss}")
+print(f"Training accuracy: {accuracy}")
